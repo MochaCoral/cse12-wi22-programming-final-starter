@@ -1,9 +1,9 @@
 /**
- * TODO: Add file header
- * Name:
- * ID:
- * Email:
+ * Name: Morales, Kyle 
+ * ID: A16162998
+ * Email: kmmorale@ucsd.edu
  * File description: 
+ * implementation of the N-ary tree data structure and its node subclass
  */
 
 import java.util.List;
@@ -13,7 +13,9 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 /**
- * TODO: Add class header
+ * Nary Tree class containing the constructor, add, find, and sort methods for 
+ * the Nary Tree data structure
+ * Also contains the Node subclass and its respective methods
  */
 public class CSE12NaryTree<E extends Comparable<E>> {
     
@@ -102,25 +104,109 @@ public class CSE12NaryTree<E extends Comparable<E>> {
     }
 
     /**
-     * TODO: Add method header
+     * Method that adds element to Nary Tree according
+     * to level order
+     * 
+     * @param element
+     * @throws NullPointerException
      */
-    public void add(E element) {
-        //TODO
+    public void add(E element) throws NullPointerException {
+        if(element == null) {
+            throw new NullPointerException();
+        }
+        else {
+            Queue<Node> frontQueue = new LinkedList<>();
+            ArrayList<Node> discoArray = new ArrayList<>();
+            Node currNode = this.root;
+
+            frontQueue.add(currNode);
+            discoArray.add(currNode);
+
+            while(!frontQueue.isEmpty()) {
+                currNode = frontQueue.remove();
+                if(currNode.getNumChildren() < this.N) {
+                    currNode.addChild((Node)element);
+                    return;
+                }
+                for(int i = 0; i < currNode.getNumChildren() - 1; i++) {
+                    if(!discoArray.contains(currNode.getChildren().get(i))) {
+                        frontQueue.add(currNode.getChildren().get(i));
+                        discoArray.add(currNode.getChildren().get(i));
+                    }
+                }
+            }
+        }
     }
 
     /**
-     * TODO: Add method header
+     * Helper method that returns an arraylist of all 
+     * elements of a given Nary Tree
+     * @param root
+     * @return an array of all tree elements
      */
-    public boolean contains(E element) {
-        //TODO
-        return false;
+    public ArrayList<Node> chevyTraverse() { 
+        Queue<Node> frontQueue = new LinkedList<>(); //frontierQueue
+        ArrayList<Node> discoArray = new ArrayList<>(); //array of discovered elements
+        Node currNode = this.root;
+
+        frontQueue.add(currNode);
+        discoArray.add(currNode);
+
+        while(!frontQueue.isEmpty()) {
+            currNode = frontQueue.remove();
+            for(int i = 0; i < currNode.getNumChildren() - 1; i++) {
+                if(!discoArray.contains(currNode.getChildren().get(i))) {
+                    frontQueue.add(currNode.getChildren().get(i));
+                    discoArray.add(currNode.getChildren().get(i));
+                }
+            }
+        }
+        return discoArray;
+    }
+    /**
+     * Method that searches for element within a given
+     * Nary Tree
+     * @param element
+     * @return boolean whether element is found
+     */
+    public boolean contains(E element) throws NullPointerException {
+        if(element == null) {
+            throw new NullPointerException();
+        }
+        else {
+            Queue<Node> frontQueue = new LinkedList<Node>();
+            ArrayList<Node> discoArray = new ArrayList<>();
+            Node currNode;
+
+            frontQueue.add(this.root);
+            discoArray.add(this.root);
+
+            while(!frontQueue.isEmpty()) {
+                currNode = frontQueue.remove();
+                if(currNode.getData().equals(element)) {
+                    return true;
+                }
+                for(int i = 0; i < currNode.getNumChildren() - 1; i++) {
+                    if(!discoArray.contains(currNode.getChildren().get(i))) {
+                        frontQueue.add(currNode.getChildren().get(i));
+                        discoArray.add(currNode.getChildren().get(i));
+                    }
+                }
+            }
+            return false;
+        }
     }
 
     /**
      * TODO: Add method header
      */
     public ArrayList<E> sortTree(){
-        //TODO
-        return null;
+        ArrayList<Node> sorted = this.chevyTraverse();
+        PriorityQueue<Node> heap = new PriorityQueue<Node>(sorted);
+
+        for(int i = sorted.size(); i >= 0; i--) {
+            sorted.add(i, heap.remove());
+        }
+        return (ArrayList<E>)sorted;
     }
 }
