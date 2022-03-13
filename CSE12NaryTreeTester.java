@@ -25,15 +25,15 @@ public class CSE12NaryTreeTester {
     public void testAdd(){
         CSE12NaryTree<Integer> testAdd = new CSE12NaryTree<>(2);
         testAdd.add(5);
-        assertEquals("root should be 5", 5, testAdd.root.getData());
+        assertEquals("root should be 5", (Integer)5, testAdd.root.getData());
         testAdd.add(5);
-        assertEquals("root left child should be 5", 5, 
+        assertEquals("root left child should be 5", (Integer)5, 
             testAdd.root.getChildren().get(0).getData());
         testAdd.add(5);
-        assertEquals("root right child should be 5", 5,
+        assertEquals("root right child should be 5", (Integer)5,
             testAdd.root.getChildren().get(1).getData());
         testAdd.add(5);
-        assertEquals("left child of root left child should be 5", 5,
+        assertEquals("left child of root left child should be 5", (Integer)5,
             testAdd.root.getChildren().get(0).getChildren().get(0).getData());
     }
 
@@ -64,7 +64,7 @@ public class CSE12NaryTreeTester {
         }
         ArrayList<Integer> postSort = testSortTree.sortTree();
         for(int i = 1; i < 10; i++) {
-            assertEquals("Should be " + Integer.toString(i), i, postSort.get(i - 1));
+            assertEquals("Should be " + Integer.toString(i), (Integer)i, postSort.get(i - 1));
         }
     }
 

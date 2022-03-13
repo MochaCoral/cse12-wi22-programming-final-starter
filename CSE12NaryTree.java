@@ -114,6 +114,9 @@ public class CSE12NaryTree<E extends Comparable<E>> {
         if(element == null) {
             throw new NullPointerException();
         }
+        else if(this.root == null) {
+            this.root = new Node(element);
+        }
         else {
             Queue<Node> frontQueue = new LinkedList<>();
             ArrayList<Node> discoArray = new ArrayList<>();
@@ -125,7 +128,9 @@ public class CSE12NaryTree<E extends Comparable<E>> {
             while(!frontQueue.isEmpty()) {
                 currNode = frontQueue.remove();
                 if(currNode.getNumChildren() < this.N) {
-                    currNode.addChild((Node)element);
+                    Node aChild = new Node(element);
+                    currNode.addChild(aChild);
+                    this.size++;
                     return;
                 }
                 for(int i = 0; i < currNode.getNumChildren() - 1; i++) {
@@ -140,13 +145,13 @@ public class CSE12NaryTree<E extends Comparable<E>> {
 
     /**
      * Helper method that returns an arraylist of all 
-     * elements of a given Nary Tree
+     * nodes of a given Nary Tree
      * @param root
      * @return an array of all tree elements
      */
-    public ArrayList<Node> chevyTraverse() { 
+    private LinkedList<Node> chevyTraverse() { 
         Queue<Node> frontQueue = new LinkedList<>(); //frontierQueue
-        ArrayList<Node> discoArray = new ArrayList<>(); //array of discovered elements
+        LinkedList<Node> discoArray = new LinkedList<>(); //array of discovered elements
         Node currNode = this.root;
 
         frontQueue.add(currNode);
@@ -201,12 +206,22 @@ public class CSE12NaryTree<E extends Comparable<E>> {
      * TODO: Add method header
      */
     public ArrayList<E> sortTree(){
-        ArrayList<Node> sorted = this.chevyTraverse();
-        PriorityQueue<Node> heap = new PriorityQueue<Node>(sorted);
-
-        for(int i = sorted.size(); i >= 0; i--) {
-            sorted.add(i, heap.remove());
+        LinkedList<Node> unsorted = this.chevyTraverse();
+        ArrayList<E> sorted = new ArrayList<>();
+        PriorityQueue<Node> heap = new PriorityQueue<>(unsorted);
+        E temp;
+        
+        if(this.size == 0) {
+            return sorted;
         }
-        return (ArrayList<E>)sorted;
+        while(!heap.isEmpty()) {
+            sorted.add(heap.remove().getData());
+        }
+        for(int i = 0; i < sorted.size() - 1; i++) {
+            temp = sorted.get(i);
+            sorted.set(i, sorted.get(sorted.size() - i));
+            sorted.set(sorted.size() - i, temp);
+        }
+        return sorted;
     }
 }
