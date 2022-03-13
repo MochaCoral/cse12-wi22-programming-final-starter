@@ -1,9 +1,8 @@
 /**
- * TODO: Add file header
- * Name:
- * ID:
- * Email:
- * File description: 
+ * Name: Morales, Kyle
+ * ID: A16162998
+ * Email: kmmorale@ucsd.edu
+ * File description: Tester for methods implemented within the CSE12NaryTree Class
  */
  
 import static org.junit.Assert.*;
@@ -11,7 +10,7 @@ import org.junit.*;
 import java.util.*;
 
 /**
- * TODO: Add class header
+ * Class containing JUnit testers for testing methods implemented within the CSE12NaryTree Class
  */
 public class CSE12NaryTreeTester {
     /**
@@ -39,7 +38,7 @@ public class CSE12NaryTreeTester {
     }
 
     /**
-     * Search for an internal node
+     * Search for an internal node of a ternary Tree
      */
     @Test
     public void testContains(){
@@ -55,7 +54,7 @@ public class CSE12NaryTreeTester {
     }
 
     /**
-     * TODO: Add test case description
+     * Sort the contents of an Onary Tree(singly linked list) using the sortTree() method
      */
     @Test
     public void testSortTree(){
@@ -94,6 +93,5 @@ public class CSE12NaryTreeTester {
         }
         assertTrue("Null Pointer exception should have been thrown(contains)",
             exceptionThrown);
-
     }
 }
